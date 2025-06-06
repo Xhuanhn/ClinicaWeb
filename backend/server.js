@@ -9,16 +9,21 @@ const medtomadoRoutes = require('./routes/medtomado');
 
 
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use('/api', authRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/pacientes', pacientesRoutes);
 app.use('/api/medicamentos', medicamentosRoutes);
 app.use('/api/citas', citasRoutes);
 app.use('/api/medtomado', medtomadoRoutes);
 
+
+const signosVitalesRoutes = require('./routes/signos-vitales');
+app.use('/api/signos-vitales', signosVitalesRoutes);
 
 
 

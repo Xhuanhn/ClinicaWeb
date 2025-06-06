@@ -8,6 +8,7 @@ const PacienteSchema = new mongoose.Schema({
   domicilio: { type: String, required: true },
   correo: { type: String },
   contraseña: { type: String, required: true } // 🔐 nuevo campo
+  
 });
 
 module.exports = mongoose.model('Paciente', PacienteSchema);

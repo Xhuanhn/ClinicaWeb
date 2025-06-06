@@ -24,7 +24,7 @@ router.post('/login', async (req, res) => {
     if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
     const coincide = await bcrypt.compare(contraseña, usuario.contraseña);
     if (!coincide) return res.status(401).json({ error: 'Contraseña incorrecta' });
-    res.json({ mensaje: 'Inicio de sesión exitoso', rol: usuario.rol });
+res.json({ mensaje: 'Inicio de sesión exitoso', rol: usuario.rol, nombre: usuario.nombre });
   } catch (error) {
     res.status(500).json({ error: 'Error al iniciar sesión' });
   }
@@ -49,6 +49,15 @@ router.post('/login-paciente', async (req, res) => {
   res.json({ nombre: paciente.nombre, correo: paciente.correo });
   } catch (error) {
     res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+router.get('/usuarios', async (req, res) => {
+  try {
+    const usuarios = await Usuario.find({}, 'nombre correo'); // Puedes filtrar por rol si usas roles
+    res.json(usuarios);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener usuarios' });
   }
 });
 

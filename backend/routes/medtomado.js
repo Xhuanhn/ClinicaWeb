@@ -40,5 +40,27 @@ router.post('/por-paciente', async (req, res) => {
   }
 });
 
+router.post('/reporte-completo', async (req, res) => {
+  const { pacienteId, fechaInicio, fechaFin } = req.body;
+  const SignosVitales = require('../models/SignosVitales');
+
+  try {
+    const medicamentos = await MedTomado.find({
+      pacienteId,
+      fechaHora: { $gte: new Date(fechaInicio), $lte: new Date(fechaFin) }
+    });
+
+    const signos = await SignosVitales.find({
+      pacienteId,
+      fecha: { $gte: new Date(fechaInicio), $lte: new Date(fechaFin) }
+    });
+
+    res.json({ medicamentos, signos });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener datos para el reporte' });
+  }
+});
+
+
 
 module.exports = router;
